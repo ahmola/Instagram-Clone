@@ -14,10 +14,12 @@
 
       <div class="flex items-center gap-4">
         <RouterLink to="/feed" class="text-gray-700 hover:text-black">Home</RouterLink>
+
         <RouterLink v-if="me" :to="`/u/${me.username}`" class="flex items-center gap-2">
           <img :src="me.avatar" alt="" class="w-7 h-7 rounded-full" />
           <span class="hidden sm:inline text-sm">@{{ me.username }}</span>
         </RouterLink>
+        
         <button v-if="isAuthed" @click="logout" class="text-sm text-red-500 hover:underline">Logout</button>
         <RouterLink v-else to="/login" class="text-sm text-instaBlue hover:underline">Login</RouterLink>
       </div>
