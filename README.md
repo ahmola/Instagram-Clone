@@ -11,6 +11,8 @@ Instagram Clone with Microservice Architecture
 
 2. API 명세
 
+https://www.notion.so/Instagram-Clone-API-2b02b42602558028a96ad8f99a7fa4ec?source=copy_link
+
 3. 아키텍처 디자인
 
 ![img](architecture.png)
