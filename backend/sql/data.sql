@@ -1,3 +1,4 @@
+USE user_db;
 -- ========================
 -- USERS
 -- ========================
@@ -7,7 +8,6 @@ VALUES
     ('bob', 'hashed_pw_2', 'Hi, Bob here!'),
     ('charlie', 'hashed_pw_3', 'Charlie’s world'),
     ('david', 'hashed_pw_4', 'Love coding!');
-
 
 -- ========================
 -- FOLLOWS
@@ -21,7 +21,7 @@ VALUES
     (1, 2),  -- alice → bob
     (1, 3);  -- alice → charlie
 
-
+USE post_db;
 -- ========================
 -- POSTS
 -- alice가 2개, bob이 1개, charlie 1개
@@ -33,11 +33,11 @@ VALUES
     (2, 'Bob is here'),
     (3, 'Charlie’s first post');
 
-
 -- ========================
 -- POST IMAGES
 -- ========================
 
+USE comment_db;
 -- ========================
 -- COMMENTS
 -- alice의 포스트 1번에 bob/charlie가 댓글
@@ -50,7 +50,7 @@ VALUES
     (4, 2, 'Good vibe!'),
     (1, 4, 'Charlie, nice photo!');
 
-
+USE like_db;
 -- ========================
 -- LIKES
 -- 다양한 사용자 간 좋아요 데이터

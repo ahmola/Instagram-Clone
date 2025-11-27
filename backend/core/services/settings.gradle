@@ -1,0 +1,6 @@
+rootProject.name = "photogram"
+
+include("common-domain")
+include("user-service")
+include("post-service")
+include("commnet-service")

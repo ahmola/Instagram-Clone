@@ -1,77 +1,83 @@
--- DB
-CREATE DATABASE IF NOT EXISTS instagram_clone 
+-- USER DB
+CREATE DATABASE IF NOT EXISTS user_db
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_unicode_ci;
+USE user_db;
 
-USE instagram_clone;
-
--- users
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     bio TEXT,
     avatar_url VARCHAR(500),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- follows
 CREATE TABLE IF NOT EXISTS follows (
-    follower_id BIGINT UNSIGNED NOT NULL,
-    followee_id BIGINT UNSIGNED NOT NULL,
+    follower BIGINT UNSIGNED NOT NULL,
+    followee BIGINT UNSIGNED NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
+
     CONSTRAINT fk_follows_followee
-        FOREIGN KEY (followee_id) REFERENCES users(id)
+        FOREIGN KEY (followee) REFERENCES users(id)
         ON DELETE CASCADE,
 
     CONSTRAINT fk_follows_follower
-        FOREIGN KEY (follower_id) REFERENCES users(id)
+        FOREIGN KEY (follower) REFERENCES users(id)
         ON DELETE CASCADE,
     
-    PRIMARY KEY (followee_id, follower_id)
+    PRIMARY KEY (followee, follower)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS posts(
+-- POST DB
+CREATE DATABASE IF NOT EXISTS post_db 
+    DEFAULT CHARACTER SET utf8mb4
+    DEFAULT COLLATE utf8mb4_unicode_ci;
+USE post_db;
+
+CREATE TABLE IF NOT EXISTS posts (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL, -- 논리 FK
     caption TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    CONSTRAINT fk_posts_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS post_images(
+CREATE TABLE IF NOT EXISTS post_images (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    post_id BIGINT UNSIGNED NOT NULL,
-    file_key varchar(255) NOT NULL UNIQUE,
-    extension varchar(50) NOT NULL,
+    post_id BIGINT UNSIGNED NOT NULL, -- 논리 FK
+    file_key VARCHAR(255) NOT NULL UNIQUE,
+    extension VARCHAR(50) NOT NULL,
     url VARCHAR(255) NOT NULL,
-    seq INTEGER DEFAULT 0,
+    seq INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (post_id) REFERENCES posts(id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS comments(
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNSIGNED NOT NULL,
-    post_id BIGINT UNSIGNED NOT NULL,
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(id)
-    FOREIGN KEY (post_id) REFERENCES posts(id)
+    CONSTRAINT fk_images_post
+        FOREIGN KEY (post_id) REFERENCES posts(id)
+        ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS likes(
-    post_id UNSIGNED BIGINT NOT NULL,
-    user_id UNSIGNED BIGINT NOT NULL,
+    post_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL, -- 논리 FK
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (post_id) REFERENCES posts(id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_likes_post
+        FOREIGN KEY (post_id) REFERENCES posts(id)
+        ON DELETE CASCADE,
+
     PRIMARY KEY (post_id, user_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- COMMENT DB
+CREATE DATABASE IF NOT EXISTS comment_db 
+    DEFAULT CHARACTER SET utf8mb4
+    DEFAULT COLLATE utf8mb4_unicode_ci;
+USE comment_db;
+
+CREATE TABLE IF NOT EXISTS comments (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL, -- 논리 FK
+    post_id BIGINT UNSIGNED NOT NULL, -- 논리 FK
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
