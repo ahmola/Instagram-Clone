@@ -20,9 +20,11 @@ jobs:
             
             - name: Build Spring APP
               run: ./gradlew clean build -x test
+              working-directory: ./backend/edge/config
 
             - name: Build Docker image
-              run: docker build -t config-server:latest ./backend/edge/config
+              run: docker build -t config-server:latest .
+              working-directory: ./backend/edge/config
 
             - name: Deploy Container (restart)
               run: |
