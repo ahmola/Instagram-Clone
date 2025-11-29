@@ -1,0 +1,42 @@
+name: Build Template
+
+on:
+    workflow_call:
+        inputs:
+            service:
+                required: true
+                type: string
+            port:
+                required: false
+                type: number
+                default: 8080
+    
+jobs:
+    build-and-deploy:
+        runs-on: self-hosted
+
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                java-version: '17'
+                distribution: 'termurin'
+                java-package: 'jdk'
+                cache: 'gradle'
+
+            - name: Build Spring Boot Service
+              run: ./gradlew clean build -x test 
+              working-directory: ./backend/edge/config
+            
+            - name: Build Docker Image
+              run: docker build -t ${{inputs.service}}:latest .
+              working-directory: ./backend/edge/config
+
+            - name: Deploy Container (restart)
+              run: |
+                docker stop ${{inputs.service}} || true
+                docker rm ${{inputs.service}} || true
+                docker run -d -p ${{inputs.port}}:${{inputs.port}} --name ${{inputs.service}} ${{inputs.service}}:latest

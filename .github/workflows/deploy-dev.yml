@@ -5,29 +5,8 @@ on:
         branches: ["dev"]
 
 jobs:
-    build-deploy:
-        runs-on: self-hosted
-
-        steps:
-            - name: Checkout source
-              uses: actions/checkout@v4
-            
-            - name: Set up JDK 17
-              uses: actions/setup-java@v4
-              with:
-                java-version: '17'
-                distribution: 'temurin'
-            
-            - name: Build Spring APP
-              run: ./gradlew clean build -x test
-              working-directory: ./backend/edge/config
-
-            - name: Build Docker image
-              run: docker build -t config-server:latest .
-              working-directory: ./backend/edge/config
-
-            - name: Deploy Container (restart)
-              run: |
-                docker stop config-server || true
-                docker rm config-server || true
-                docker run -d -p 8888:8888 --name config-server config-server:latest
+    call-template:
+        uses: .github/workflow/build-template.yml
+        with:
+            service: "config-server"
+            port: 8888
