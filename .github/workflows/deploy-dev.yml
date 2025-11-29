@@ -6,7 +6,7 @@ on:
 
 jobs:
     call-template:
-        uses: .github/workflow/build-template.yml@dev
+        uses: ./.github/workflow/build-template.yml@dev
         with:
             service: "config-server"
             port: 8888
