@@ -24,8 +24,6 @@ jobs:
               with:
                 java-version: '17'
                 distribution: 'termurin'
-                java-package: 'jdk'
-                cache: 'gradle'
 
             - name: Build Spring Boot Service
               run: ./gradlew clean build -x test 
