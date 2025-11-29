@@ -23,7 +23,9 @@ jobs:
               uses: actions/setup-java@v4
               with:
                 java-version: '17'
-                distribution: 'termurin'
+                distribution: 'temurin'
+                java-package: 'jdk'
+                cache: 'gradle'
 
             - name: Build Spring Boot Service
               run: ./gradlew clean build -x test 
