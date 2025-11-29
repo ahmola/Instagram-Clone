@@ -12,7 +12,7 @@ jobs:
                   - service: "config-server"
                     path: "./backend/edge/config"
                     port: 8888
-                #   - service: "gateway"
+                #   - service: "gatewayㄴ"
                 #     path: "./backend/edge/gateway"
                 #     port: 8080
         uses: ./.github/workflows/build-spring-template.yml
