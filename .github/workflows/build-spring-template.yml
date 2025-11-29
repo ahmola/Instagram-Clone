@@ -28,7 +28,6 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 java-package: 'jdk'
-                cache: false
 
             - name: Build Spring Boot Service
               run: ./gradlew clean build -x test 
