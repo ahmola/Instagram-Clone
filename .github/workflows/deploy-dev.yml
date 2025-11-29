@@ -15,7 +15,7 @@ jobs:
                 #   - service: "gateway"
                 #     path: "./backend/edge/gateway"
                 #     port: 8080
-        uses: ./.github/workflows/build-spring-template.yml
+        uses: .github/workflows/build-spring-template.yml
         with:
             service: ${{matrix.service}}
             path: ${{matrix.path}}
