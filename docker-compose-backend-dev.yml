@@ -37,16 +37,33 @@ services:
 
   config-server:
     depends_on:
-      consul:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
+      - consul:
+          condition: service_healthy
+      - mysql:
+          condition: service_healthy
     networks:
       - photogram
     image: config-server:latest
     container_name: config-server
     ports:
       - "8888:8888"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  gateway:
+    depends_on:
+      - config-server:
+          condition: service_healthy
+    networks:
+      - photogram
+    image: gateway:latest
+    container_name: gateway
+    ports:
+      - "8080:8080"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
       interval: 10s
