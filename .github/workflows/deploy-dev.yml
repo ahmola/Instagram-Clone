@@ -49,5 +49,5 @@ jobs:
 
             - name: Deploy with Docker Compose
               run: |
-                docker compose -p photogram-backend -f docker-compose-backend.dev.yml down -v --remove-orphans
+                docker compose -p photogram-backend -f docker-compose-backend-dev.yml down -v --remove-orphans
                 docker compose -p photogram-backend -f docker-compose-backend-dev.yml up -d
