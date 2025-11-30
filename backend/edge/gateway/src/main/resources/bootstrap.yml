@@ -5,4 +5,4 @@ spring:
     import: "configserver:http://config-server:8888"
   cloud:
     config:
-      fail-fast: fast
+      fail-fast: false
