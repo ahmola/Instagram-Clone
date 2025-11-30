@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GatewayApplicationTests {
 
 	@Test
-	void contextLoads() { // something
+	void contextLoads() { // something12
 	}
 
 }
