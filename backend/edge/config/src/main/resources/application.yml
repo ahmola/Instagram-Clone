@@ -10,13 +10,7 @@ spring:
                 git:
                     uri: https://github.com/ahmola/config-repo
                     default-label: main
-                    clone-on-start: true
-                    search-paths: 
-                    - instagram-clone/actuator
-                    - instagram-clone/common
-                    - instagram-clone/edge
-                    - instagram-clone/dbms
-                    - instagram-clone/services
+                    search-paths: instagram-clone/**
 
 management:
     endpoints:
