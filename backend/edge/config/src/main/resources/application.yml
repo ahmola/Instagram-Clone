@@ -12,11 +12,11 @@ spring:
                     default-label: main
                     clone-on-start: true
                     search-paths: 
-                    - instagram-clone/actuator
-                    - instagram-clone/common
-                    - instagram-clone/edge
-                    - instagram-clone/dbms
-                    - instagram-clone/services
+                    - instagram-clone/actuator/**
+                    - instagram-clone/common/**
+                    - instagram-clone/edge/**
+                    - instagram-clone/dbms/**
+                    - instagram-clone/services/**
 
 management:
     endpoints:
